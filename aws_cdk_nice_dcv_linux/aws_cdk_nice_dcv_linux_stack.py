@@ -301,7 +301,6 @@ class DcvInfra(Stack):
             os.path.join(
                 os.path.dirname(__file__),
                 "..",
-                "..",
                 "scripts",
                 "session-mgr-user-data.sh",
             ),
@@ -350,7 +349,6 @@ class DcvInfra(Stack):
         connection_gwy_user_data_file = open(
             os.path.join(
                 os.path.dirname(__file__),
-                "..",
                 "..",
                 "scripts",
                 "connection-gwy-user-data.sh",
