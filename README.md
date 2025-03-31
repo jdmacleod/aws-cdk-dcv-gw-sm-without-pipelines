@@ -1,65 +1,93 @@
 
-# Welcome to your CDK Python project!
+# AWS CDK Nice DCV - Linux
 
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`aws_cdk_nice_dcv_linux_stack`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
+Deploy examples of Amazon / Nice DCV running on EC2 instances.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+<https://aws.amazon.com/blogs/desktop-and-application-streaming/automating-foundational-nice-dcv-infrastructure/>
 
-This project is set up like a standard Python project.  The initialization process also creates
-a virtualenv within this project, stored under the .venv directory.  To create the virtualenv
-it assumes that there is a `python3` executable in your path with access to the `venv` package.
-If for any reason the automatic creation of the virtualenv fails, you can create the virtualenv
-manually once the init process completes.
+## Setup
 
-To manually create a virtualenv on MacOS and Linux:
+Create the project directory.
 
-```
-$ python3 -m venv .venv
+```bash
+mkdir aws-cdk-nice-dcv-linux
+cd aws-cdk-nice-dcv-linux
 ```
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+Initialize the CDK project.
 
-```
-$ source .venv/bin/activate
-```
-
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
+```bash
+cdk init app --language=python
 ```
 
-Once the virtualenv is activated, you can install the required dependencies.
+Activate the Python virtual environment and install the Python dependencies.
 
-```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
+```bash
+source ./venv/bin/activate
+python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
 ```
 
-You can now begin exploring the source code, contained in the hello directory.
-There is also a very trivial test included that can be run like this:
+Set the Node.js version to the LTS version.
 
+```bash
+nvm use --lts
 ```
-$ pytest
+
+Check the role being used by the AWS CLI.
+
+```bash
+aws sts get-caller-identity
 ```
 
-To add additional dependencies, for example other CDK libraries, just add to
-your requirements.txt file and rerun the `pip install -r requirements.txt`
-command.
+Bootstrap the AWS CDK environment for the region, if has not already been done once. This step needs to run with Administrator privileges.
 
-## Useful commands
+```bash
+cdk --profile admin bootstrap
+```
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+## DCV Gateway + Session Manager without Pipelines
 
-Enjoy!
+This AWS CDK sample provisions the foundational infrastructure for a DCV Connection Gateway with DCV Session Manager environment. Both DCV Session Manager and DCV Connection Gateway are configured with bootstrap scripts so that can you utilize base AMIs. This deployment is intended to be deployed with Amazon Linux 2, but you can also deploy using other supported operating systems
+
+See the AWS example on GitHub - <https://github.com/aws-samples/dcv-samples/tree/main/cdk/dcv-gw-sm-without-pipelines>
+
+### Identify AMI ID's to use
+
+<https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html>
+
+We'll use the latest ARM-based Amazon Linux 2 AMI in the region (us-west-2).
+
+Harder than it sounds, with many, many choices.
+
+One way to do this:
+
+<https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/>
+
+```bash
+aws ssm get-parameters-by-path --path "/aws/service/ami-amazon-linux-latest" --region us-west-2
+```
+
+From the list for the region, entries look like this:
+
+```bash
+PARAMETERS	arn:aws:ssm:us-west-2::parameter/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-arm64	text	2025-03-26T15:57:46.434000-07:00	/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-arm64	String	ami-03be73a6c76012d9f	114
+```
+
+This can also be done in the AWS Console.
+
+From the Console->EC2->AMI Catalog, this choice for the Amazon Linux 2023 AMI, 64-bit Arm looks good.
+
+`ami-0013610ea966aafe0`
+
+### Set up Key Pairs for SSH Access to EC2
+
+<https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html>
+
+```bash
+aws ec2 create-key-pair --key-name nice-dcv-key-pair --output text > nice-dcv-key-pair.pem
+```
+
+## Reference
+
+See the [boilerplate CDK Read Me](./REFERENCE.md) for reference.
