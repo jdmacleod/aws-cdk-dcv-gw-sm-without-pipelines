@@ -14,6 +14,8 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# from https://github.com/aws-samples/dcv-samples/blob/main/cdk/dcv-gw-sm-without-pipelines/scripts/connection-gwy-user-data.sh
+
 LOG_PATH="/var/log/dcv-connection-gwy-install.log"
 echo $(date -u) "*****START USER DATA SCRIPT*****" | tee -a "$LOG_PATH"
 
