@@ -84,6 +84,14 @@ From the Console->EC2->AMI Catalog, region us-west-2 (Oregon), this choice for t
 
 <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html>
 
+You can list available key pairs with this AWS CLI command:
+
+```bash
+aws ec2 describe-key-pairs --query 'KeyPairs[*].KeyName' --output table
+```
+
+Create a new key pair with the below command:
+
 ```bash
 aws ec2 create-key-pair --key-name nice-dcv-key-pair --output text > nice-dcv-key-pair.pem
 ```
