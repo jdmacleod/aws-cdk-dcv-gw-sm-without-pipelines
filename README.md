@@ -1,7 +1,7 @@
 
-# AWS CDK Nice DCV - Linux
+# AWS CDK Nice DCV Connection Gateway and Session Manager - Linux
 
-Deploy examples of Amazon / Nice DCV running on EC2 instances.
+Part of deploying examples of Amazon / Nice DCV running on EC2 instances.
 
 <https://aws.amazon.com/blogs/desktop-and-application-streaming/automating-foundational-nice-dcv-infrastructure/>
 
@@ -10,8 +10,8 @@ Deploy examples of Amazon / Nice DCV running on EC2 instances.
 Create the project directory.
 
 ```bash
-mkdir aws-cdk-nice-dcv-linux
-cd aws-cdk-nice-dcv-linux
+mkdir aws-cdk-dcv-gw-sm-without-pipelines
+cd aws-cdk-dcv-gw-sm-without-pipelines
 ```
 
 Initialize the CDK project.
@@ -86,6 +86,22 @@ From the Console->EC2->AMI Catalog, this choice for the Amazon Linux 2023 AMI, 6
 
 ```bash
 aws ec2 create-key-pair --key-name nice-dcv-key-pair --output text > nice-dcv-key-pair.pem
+```
+
+Verify there are no errors with the project using `cdk synth`.
+
+### Check project with Synth
+
+```bash
+cdk synth --all
+```
+
+### Deploy Infrastructure stack
+
+Deploy the project to AWS.
+
+```bash
+cdk deploy
 ```
 
 ## Reference
