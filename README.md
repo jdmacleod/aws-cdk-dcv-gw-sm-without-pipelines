@@ -76,9 +76,13 @@ PARAMETERS	arn:aws:ssm:us-west-2::parameter/aws/service/ami-amazon-linux-latest/
 
 This can also be done in the AWS Console.
 
-From the Console->EC2->AMI Catalog, region us-west-2 (Oregon), this choice for the Amazon Linux 2023 AMI, 64-bit Arm looks good.
+```bash
+aws ec2 describe-images --owners amazon --filters "Name=name,Values=amzn*" --query 'sort_by(Images, &CreationDate)[].Name'
+```
 
-`ami-03be73a6c76012d9f`
+From the Console->EC2->AMI Catalog, region us-west-2 (Oregon), this choice for the Amazon Linux 2 AMI, 64-bit Arm looks good.
+
+`ami-0e0ae53798f2e021e`
 
 ### Set up Key Pairs for SSH Access to EC2
 
