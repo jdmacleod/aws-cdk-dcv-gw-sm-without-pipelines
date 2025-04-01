@@ -97,8 +97,10 @@ aws ec2 describe-key-pairs --query 'KeyPairs[*].KeyName' --output table
 Create a new key pair with the below command:
 
 ```bash
-aws ec2 create-key-pair --key-name nice-dcv-key-pair --output text > nice-dcv-key-pair.pem
+aws ec2 create-key-pair --key-name dcv-key-pair --output text > dcv-key-pair.pem
 ```
+
+Confirm the key pair exists in the AWS Console->EC2-Key Pairs.
 
 Verify there are no errors with the project using `cdk synth`.
 
