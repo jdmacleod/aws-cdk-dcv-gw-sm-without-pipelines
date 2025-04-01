@@ -17,7 +17,7 @@ import json
 
 import aws_cdk as cdk
 
-from aws_cdk_nice_dcv_linux.aws_cdk_nice_dcv_linux_stack import DcvInfra
+from stacks.dcv_gw_sm_infra import DcvInfra
 
 app = cdk.App()
 
