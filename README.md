@@ -1,4 +1,3 @@
-
 # AWS CDK Nice DCV Connection Gateway and Session Manager - Linux
 
 Part of deploying examples of Amazon / Nice DCV running on EC2 instances.
